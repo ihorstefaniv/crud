@@ -1,0 +1,21 @@
+{
+    "name": "Ihor",
+    "description": "CRUD project",
+    "type": "project",
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "Ivan\\TransportLocalhost\\": "src/",
+            "core\\": "core",
+            "app\\": "app"
+        }
+    },
+    "authors": [
+        {
+            "name": "ihorstefaniv",
+            "email": "dezir16@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
