@@ -12,9 +12,7 @@ $('#all-items').on('click', function() {
 });
 
 
-$('.table').on('click', 'tbody tr', function(event) {
-    $('#all-items').prop('checked', false);
-});
+
 
 $('#user-modal-save').on('click', function (){
     let form = $('#user-form');
@@ -332,11 +330,28 @@ $("#user-table-body").on("click", ".user-edit", function () {
 $('.group-action-send').on('click', function (){
     errorAreaClear();
    let action =  $(this).parent().parent().find('.group-action').val();
-    $('#user-table-body input:checkbox:checked').each(function(){
-        let userId = $(this).attr('data-user');
-        if(action === 'delete') deleteUser(userId);
-        if(action === 'active') setActiveUser(userId);
-        if(action === 'unactive') setUnactiveUser(userId);
-    });
+   let isChecked =   $('#user-table-body input:checkbox:checked');
 
+    if(isChecked.length <= 0){
+        showSuccessMessage('Please select user\n');
+    }else{
+        isChecked.each(function(){
+            let userId = $(this).attr('data-user');
+            if(action === 'delete') deleteUser(userId);
+            if(action === 'active') setActiveUser(userId);
+            if(action === 'unactive') setUnactiveUser(userId);
+            if(action === 'none') showSuccessMessage('Action not selected\n');
+        });
+    }
+
+
+});
+
+$("#user-table-body").on("click", ".check-item", function () {
+    let notChecked =   $('#user-table-body input:checkbox:not(:checked)');
+    if(notChecked.length <= 0){
+        $('#all-items').prop('checked', true);
+    }else{
+        $('#all-items').prop('checked', false);
+    }
 });

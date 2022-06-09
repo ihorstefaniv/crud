@@ -104,7 +104,7 @@ class UserRestController extends RestController {
             $status = $user->update($userId ,$dataUser);
             
             if($status == true) {
-                $message = "update user success";
+                $message = "Update user success";
                 $status = true;
                 $user =  $dataUser;
     
