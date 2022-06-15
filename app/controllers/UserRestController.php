@@ -50,12 +50,12 @@ class UserRestController extends RestController
             $user = $user->create($dataUser);
 
             if ($user['status'] == true) {
-                $message = "create user success";
+                $error = null;
                 $status = true;
                 $dataUser['id'] = $user['id'];
                 $user =  $dataUser;
 
-                $this->set(compact('message', 'status', 'user'));
+                $this->set(compact('status', 'error', 'user'));
             } else {
                 $status = false;
                 $error = $status;
@@ -77,18 +77,17 @@ class UserRestController extends RestController
         $user  = new Model();
         $user = $user->getOne($userId);
 
-        //  var_dump($user);
-
         if (!isset($user[0]['id'])) {
             $status = false;
             $error = ['code' => 404, 'message' => 'User not found'];
             $this->set(compact('status', 'error'));
         } else {
             $status = true;
-            $error = '';
-            $this->set(compact('status', 'user'));
+            $error = null;
+            $this->set(compact('status', 'error', 'user'));
         }
     }
+
 
     public function userUpdateAction()
     {
@@ -105,11 +104,11 @@ class UserRestController extends RestController
         $status = $user->update($userId, $dataUser);
 
         if ($status == true) {
-            $message = "update user success";
             $status = true;
+            $error = null;
             $user =  $dataUser;
 
-            $this->set(compact('status', 'message',  'user'));
+            $this->set(compact('status', 'error',  'user'));
         } else {
             $status = false;
             $error = $status;
@@ -127,7 +126,7 @@ class UserRestController extends RestController
         $message = '';
         if (!isset($trueAction[$action])) {
             $status = false;
-            $error = ['code' => 404, 'message' => 'Select action'];
+            $error = ['code' => 100, 'message' => 'Select action'];
             $this->set(compact('status', 'error'));
         } else {
             if (empty($userIds)) {
@@ -148,24 +147,24 @@ class UserRestController extends RestController
                         if ($action == 'delete') {
                             $user->delete($userId);
                             $userData[$currentUser[0]['id']]['id'] = $currentUser[0]['id'];
-                            $message = "Delete user success";
                         } elseif ($action == 'active') {
                             $user->setActive($userId);
                             $userData[$currentUser[0]['id']] = $user->getOne($currentUser[0]['id'])[0];
-                            $message = 'Update success';
                         } elseif ($action == 'unactive') {
                             $user->setUnActive($userId);
                             $userData[$currentUser[0]['id']] = $user->getOne($currentUser[0]['id'])[0];
-                            $message = 'Update success';
                         }
                     }
                 }
                 $status = true;
                 $user = $userData;
-                $this->set(compact('status', 'user', 'message'));
+                $error = null;
+                $this->set(compact('status', 'error', 'user'));
             }
         }
     }
+
+
 
     public function userDeleteAction()
     {
@@ -180,9 +179,10 @@ class UserRestController extends RestController
             $this->set(compact('status', 'error'));
         } else {
             $user->delete($userId);
-            $message = "Delete user success";
+            $error = null;
             $status = true;
-            $this->set(compact('status', 'message'));
+            $id = $userId;
+            $this->set(compact('status', 'error', 'id'));
         }
     }
 
@@ -193,8 +193,8 @@ class UserRestController extends RestController
         $user->setActive($id);
         $user = $user->getOne($id);
         $status = true;
-        $message = 'Update success';
-        $this->set(compact('status', 'user', 'message'));
+        $error = null;
+        $this->set(compact('status', 'error', 'user'));
     }
 
     public function userUnActiveAction()
@@ -204,7 +204,7 @@ class UserRestController extends RestController
         $user->setUnActive($id);
         $user = $user->getOne($id);
         $status = true;
-        $message = 'Update success';
-        $this->set(compact('status', 'user', 'message'));
+        $error = null;
+        $this->set(compact('status', 'error', 'user'));
     }
 }

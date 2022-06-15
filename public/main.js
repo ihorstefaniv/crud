@@ -48,7 +48,7 @@ function editUser($data) {
     data: $data,
     success: function (result) {
       if (result.status) {
-        showSuccessMessage(result.message, "");
+        showSuccessMessage("Update user success", "");
         updateToTable(result.user);
         $("#user-form-modal").modal("hide");
       } else {
@@ -67,9 +67,8 @@ function createUser($data) {
     type: "post",
     data: $data,
     success: function (result) {
-      console.log(result);
       if (result.status) {
-        showSuccessMessage(result.message, "");
+        showSuccessMessage("Create user success", "");
         addToTable(result.user);
         $("#user-form-modal").modal("hide");
       } else {
@@ -91,7 +90,7 @@ function deleteUser(userId) {
     },
     success: function (result) {
       if (result.status) {
-        showSuccessMessage(result.message, "");
+        showSuccessMessage("Delete user success", "");
         deleteFromTable(userId);
       } else {
         showErrors(result.error, "");
@@ -183,7 +182,13 @@ function groupAction(userIds, action) {
             updateToTable(value);
           });
         }
-        showSuccessMessage(result.message, "");
+        let message = "";
+        if (action === "delete") {
+          message = "Delete user success";
+        } else {
+          message = "Update user success";
+        }
+        showSuccessMessage(message, "");
       } else {
         showErrors(result.error, "");
       }
@@ -357,7 +362,9 @@ function deleteFromTable(userId) {
 
 $("#user-table-body").on("click", ".user-delete", function () {
   let userId = $(this).attr("data-user");
-  deleteUser(userId);
+  if (confirm("Are you sure you want to delete user") === true) {
+    deleteUser(userId);
+  }
 });
 
 $("#user-table-body").on("click", ".user-edit", function () {
@@ -382,7 +389,13 @@ $(".group-action-send").on("click", function () {
       userIds[userId] = userId;
     });
   }
-  groupAction(userIds, action);
+  if (action === "delete") {
+    if (confirm("Are you sure you want to delete user") === true) {
+      groupAction(userIds, "delete");
+    }
+  } else {
+    groupAction(userIds, action);
+  }
 });
 
 $("#user-table-body").on("click", ".check-item", function () {
