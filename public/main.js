@@ -89,6 +89,7 @@ function deleteUser(userId) {
       id: userId,
     },
     success: function (result) {
+      console.log(result);
       if (result.status) {
         showSuccessMessage("Delete user success", "");
         deleteFromTable(userId);
@@ -97,6 +98,7 @@ function deleteUser(userId) {
       }
     },
     error: function (result) {
+      console.log(result);
       showErrors("Server error", "");
     },
   });
@@ -362,9 +364,21 @@ function deleteFromTable(userId) {
 
 $("#user-table-body").on("click", ".user-delete", function () {
   let userId = $(this).attr("data-user");
-  if (confirm("Are you sure you want to delete user") === true) {
+  $("#deleteModal").modal("show");
+  $("#confirm-send").data("user", userId);
+  //if(confirm('Are you sure you want to delete user') === true) {
+  //deleteUser(userId);
+  //}
+});
+
+$("#confirm-send").on("click", function () {
+  let userId = $(this).data("user");
+  if (typeof userId === "object") {
+    groupAction(userId, "delete");
+  } else {
     deleteUser(userId);
   }
+  $("#deleteModal").modal("hide");
 });
 
 $("#user-table-body").on("click", ".user-edit", function () {
@@ -390,9 +404,11 @@ $(".group-action-send").on("click", function () {
     });
   }
   if (action === "delete") {
-    if (confirm("Are you sure you want to delete user") === true) {
-      groupAction(userIds, "delete");
-    }
+    $("#deleteModal").modal("show");
+    $("#confirm-send").data("user", userIds);
+    // if(confirm('Are you sure you want to delete user') === true) {
+    //    groupAction(userIds, 'delete');
+    //  }
   } else {
     groupAction(userIds, action);
   }
