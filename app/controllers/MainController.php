@@ -9,13 +9,12 @@ class MainController extends Controller
 {
     public function indexAction()
     {
-     $users = new Model();
+      $users = new Model();
+
+      $listUsers = $users->getAll();
 
 
-       $listUsers = $users->getAll();
-
-
-       $this->set(compact('listUsers'));
-        $this->setMeta('Users', '', '');
+      $this->set(compact('listUsers'));
+      $this->setMeta('Users', '', '');
     }
 }

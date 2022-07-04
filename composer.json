@@ -1,6 +1,6 @@
 {
-    "name": "Ihor",
-    "description": "CRUD project",
+    "name": "ivan/transport.localhost",
+    "description": "Simple project",
     "type": "project",
     "license": "GPL",
     "autoload": {
@@ -12,8 +12,8 @@
     },
     "authors": [
         {
-            "name": "ihorstefaniv",
-            "email": "dezir16@gmail.com"
+            "name": "zabr91",
+            "email": "ivanzabroda62@gmail.com"
         }
     ],
     "minimum-stability": "dev",

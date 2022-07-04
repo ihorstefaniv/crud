@@ -86,7 +86,6 @@ class Model
        if($this->db->error){
             return $this->db->error;
         }
-
         return true;    
     }
 
